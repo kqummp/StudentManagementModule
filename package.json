@@ -18,10 +18,13 @@
   "author": "evi0s",
   "license": "MIT",
   "dependencies": {
+    "10": "0.0.1",
     "crypto": "^1.0.1",
-    "encrypt": "git+https://github.com/kqummp/Encryptor.git",
+    "encrypt": "0.0.1",
+    "encryptor": "git+https://github.com/kqummp/Encryptor.git",
     "filter": "git+https://github.com/kqummp/filter.git",
     "kqudie": "git+https://github.com/evi0s/kqudie.git",
+    "mongodb": "^3.1.6",
     "morgan": "~1.9.0"
   },
   "devDependencies": {
