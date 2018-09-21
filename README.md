@@ -30,7 +30,6 @@ Student Management Module
 {
   "week": 3,
   "day": 1,
-  "timestamp": 1537363911,
   "available": [1, 3, 7],
   "reserved": [2, 4],
   "unavailable": [5, 6, 8]
