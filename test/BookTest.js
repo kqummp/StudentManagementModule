@@ -79,6 +79,7 @@ describe('bookTest', function () {
       expect(detail_result[0].info).to.be.equal("asd");
       expect(detail_result[0].reason).to.be.equal("asd");
       expect(detail_result[0].remark).to.be.equal("asdasd");
+      expect(detail_result[0].user).to.be.equal("root");
 
       let summary_result;
       try {
