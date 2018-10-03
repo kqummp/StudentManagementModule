@@ -83,7 +83,7 @@ describe('bookTest', function () {
 
       let summary_result;
       try {
-        summary_result = await res_summary.find({"week": 3, "day": 1, "time": {$eq: 1}}).sort({}).toArray();
+        summary_result = await res_summary.find({"week": 3, "day": 1, "available": {$eq: 1}}).sort({}).toArray();
       } catch (err) {
         throw err;
       }
