@@ -48,6 +48,7 @@ Student Management Module
   "title": "sth",
   "reason": "sth",
   "info": "sth",
-  "remark": "sth"
+  "remark": "sth",
+  "status": "pending"
 }
 ```
