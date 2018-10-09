@@ -23,7 +23,7 @@ describe('deleteTest', function () {
             await res_summary.insertOne({
                 "week": 3,
                 "day": 1,
-                "timestamp": 1537363911,
+                "teacher": 1000000,
                 "available": [3, 7],
                 "reserved": [1, 2, 4],
                 "unavailable": [5, 6, 8]
@@ -32,11 +32,13 @@ describe('deleteTest', function () {
               "week": 3,
               "day": 1,
               "time": 1,
-              "user": "root",
+              "uid": 2017220301024,
               "title": "asd",
               "info": "asd",
               "reason": "asd",
-              "remark": "asdasd"
+              "remark": "asdasd",
+              "status": "pending",
+              "teacher": 1000000
             });
             ins_id = (tmp_result.insertedId).toString();
         } catch (err) {
@@ -48,7 +50,7 @@ describe('deleteTest', function () {
       let result, catch_err;
       let oid = "";
       try {
-        result = await usrmgr.Delete(oid, "root");
+        result = await usrmgr.Delete(oid, 2017220301024);
       } catch (err) {
         catch_err = err;
       }
@@ -74,7 +76,7 @@ describe('deleteTest', function () {
       let result, catch_err;
       let oid = "{$ne: 1}";
       try {
-        result = await usrmgr.Delete(oid, "root");
+        result = await usrmgr.Delete(oid, 2017220301024);
       } catch (err) {
         catch_err = err;
       }
@@ -87,7 +89,7 @@ describe('deleteTest', function () {
       let result, catch_err;
       let oid = "5bb38ef916f47987b7fe1e4";
       try {
-        result = await usrmgr.Delete(oid, "root");
+        result = await usrmgr.Delete(oid, 2017220301024);
       } catch (err) {
         catch_err = err;
       }
@@ -98,9 +100,22 @@ describe('deleteTest', function () {
 
     it('deleteTest#5', async function () {
       let result, catch_err;
+      let reserve_id = ins_id;
+      try {
+        result = await usrmgr.Delete(reserve_id, "2017220301024");
+      } catch (err) {
+        catch_err = err;
+      }
+      expect(result).to.be.an("undefined");
+      expect(catch_err).to.be.an("Error");
+      expect(catch_err.message).to.be.equal(message.invalid_field);
+    });
+
+    it('deleteTest#6', async function () {
+      let result, catch_err;
       let oid = "5bb38ef916f47987b7fe1e4f";
       try {
-        result = await usrmgr.Delete(oid, "root");
+        result = await usrmgr.Delete(oid, 2017220301024);
       } catch (err) {
         catch_err = err;
       }
@@ -109,12 +124,12 @@ describe('deleteTest', function () {
       expect(catch_err.message).to.be.equal(message.not_permitted);
     });
 
-    it('deleteTest#6', async function () {
+    it('deleteTest#7', async function () {
       let reserve_id = ins_id;
 
       let result, catch_err;
       try {
-        result = await usrmgr.Delete(reserve_id, "root");
+        result = await usrmgr.Delete(reserve_id, 2017220301024);
       } catch (err) {
         catch_err = err;
       }
@@ -132,7 +147,7 @@ describe('deleteTest', function () {
 
       let summary_result;
       try {
-        summary_result = await res_summary.find({"week": 3, "day": 1, "available": {$eq: 1}}).sort({}).toArray();
+        summary_result = await res_summary.find({"week": 3, "day": 1, "teacher": 1000000, "available": {$eq: 1}}).sort({}).toArray();
       } catch (err) {
         throw err;
       }

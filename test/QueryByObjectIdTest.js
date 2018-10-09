@@ -22,13 +22,15 @@ describe('querybyoidTest', function () {
                 "_id": new ObjectId("5ba2fdf6de61470db3cb9944"),
                 "week": 3,
                 "day": 1,
-                "timestamp": 1537363911,
                 "time": 2,
-                "user": "root",
+                "timestamp": 1537363911,
+                "uid": 2017220301024,
                 "title": "sth",
                 "reason": "sth",
                 "info": "sth",
-                "remark": "sth"
+                "remark": "sth",
+                "status": "pending",
+                "teacher": 1000000
               }
             ]);
         } catch (err) {
@@ -39,27 +41,29 @@ describe('querybyoidTest', function () {
     it('querybyoidTest#1', async function () {
         let result, catch_err;
         try {
-          result = await usrmgr.QueryByReserveId("5ba2fdf6de61470db3cb9944", "root");
+          result = await usrmgr.QueryByReserveId("5ba2fdf6de61470db3cb9944", 2017220301024);
         } catch (err) {
           catch_err = err;
         }
         expect(result.message).to.be.equal("OK");
-        expect(result.user).to.be.equal("root");
+        expect(result.uid).to.be.equal(2017220301024);
         expect(result.data.week).to.be.equal(3);
         expect(result.data.day).to.be.equal(1);
         expect(result.data.time).to.be.equal(2);
-        expect(result.data.user).to.be.equal("root");
+        expect(result.data.uid).to.be.equal(2017220301024);
         expect(result.data.title).to.be.equal("sth");
         expect(result.data.reason).to.be.equal("sth");
         expect(result.data.info).to.be.equal("sth");
         expect(result.data.remark).to.be.equal("sth");
+        expect(result.data.status).to.be.equal("pending");
+        expect(result.data.teacher).to.be.equal(1000000);
         expect(catch_err).to.be.an("undefined");
     });
 
     it('querybyoidTest#2', async function () {
       let result, catch_err;
       try {
-        result = await usrmgr.QueryByReserveId("3", "root");
+        result = await usrmgr.QueryByReserveId("3", 2017220301024);
       } catch (err) {
         catch_err = err;
       }
@@ -71,7 +75,7 @@ describe('querybyoidTest', function () {
     it('querybyoidTest#3', async function () {
       let result, catch_err;
       try {
-        result = await usrmgr.QueryByReserveId("5ba2fdf6de61470db3cb9944", "user");
+        result = await usrmgr.QueryByReserveId("5ba2fdf6de61470db3cb9944", 2017220301023);
       } catch (err) {
         catch_err = err;
       }
@@ -95,7 +99,7 @@ describe('querybyoidTest', function () {
     it('querybyoidTest#5', async function () {
       let result, catch_err;
       try {
-        result = await usrmgr.QueryByReserveId("{$ne: 123}", "root");
+        result = await usrmgr.QueryByReserveId("{$ne: 123}", 2017220301024);
       } catch (err) {
         catch_err = err;
       }
@@ -108,6 +112,18 @@ describe('querybyoidTest', function () {
       let result, catch_err;
       try {
         result = await usrmgr.QueryByReserveId();
+      } catch (err) {
+        catch_err = err;
+      }
+      expect(result).to.be.an("undefined");
+      expect(catch_err).to.be.an('error');
+      expect(catch_err.message).to.be.equal(message.invalid_field);
+    });
+
+    it('querybyoidTest#7', async function () {
+      let result, catch_err;
+      try {
+        result = await usrmgr.QueryByReserveId(2017220301024, "2017220301024");
       } catch (err) {
         catch_err = err;
       }

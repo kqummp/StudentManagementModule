@@ -21,7 +21,7 @@ describe('queryTest', function () {
               {
                 "week": 3,
                 "day": 1,
-                "timestamp": 1537363911,
+                "teacher": 1000000,
                 "available": [1, 3, 7],
                 "reserved": [2, 4],
                 "unavailable": [5, 6, 8]
@@ -29,7 +29,7 @@ describe('queryTest', function () {
               {
                 "week": 3,
                 "day": 2,
-                "timestamp": 1537363912,
+                "teacher": 1000001,
                 "available": [1, 3],
                 "reserved": [2, 4, 7],
                 "unavailable": [5, 6, 8]
@@ -37,7 +37,7 @@ describe('queryTest', function () {
               {
                 "week": 4,
                 "day": 1,
-                "timestamp": 1537363913,
+                "teacher": 1000000,
                 "available": [1, 3, 7],
                 "reserved": [2, 4],
                 "unavailable": [5, 6, 8]

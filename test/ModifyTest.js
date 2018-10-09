@@ -23,7 +23,7 @@ describe('modifyTest', function () {
             await res_summary.insertOne({
                 "week": 3,
                 "day": 1,
-                "timestamp": 1537363911,
+                "teacher": 1000000,
                 "available": [3, 7],
                 "reserved": [1, 2, 4],
                 "unavailable": [5, 6, 8]
@@ -32,11 +32,13 @@ describe('modifyTest', function () {
               "week": 3,
               "day": 1,
               "time": 1,
-              "user": "root",
+              "uid": 2017220301024,
               "title": "asd",
               "info": "asd",
               "reason": "asd",
-              "remark": "asdasd"
+              "remark": "asdasd",
+              "status": "pending",
+              "teacher": 1000000
             });
             ins_id = (tmp_result.insertedId).toString();
         } catch (err) {
@@ -48,7 +50,7 @@ describe('modifyTest', function () {
       let reserve_id = "";
       let result, catch_err;
       try {
-        result = await usrmgr.Modify(reserve_id, true, "root");
+        result = await usrmgr.Modify(reserve_id, true, 2017220301024);
       } catch (err) {
         catch_err = err;
       }
@@ -74,7 +76,7 @@ describe('modifyTest', function () {
       let reserve_id = ins_id;
       let result, catch_err;
       try {
-        result = await usrmgr.Modify(reserve_id, "root");
+        result = await usrmgr.Modify(reserve_id, 2017220301024);
       } catch (err) {
         catch_err = err;
       }
@@ -84,22 +86,39 @@ describe('modifyTest', function () {
     });
 
     it('modifyTest#4', async function () {
+      let reserve_id = ins_id;
+      let result, catch_err;
+      try {
+        result = await usrmgr.Modify(reserve_id, false, "2017220301024");
+      } catch (err) {
+        catch_err = err;
+      }
+      expect(result).to.be.an("undefined");
+      expect(catch_err).to.be.an("Error");
+      expect(catch_err.message).to.be.equal(message.invalid_field);
+    });
+
+    it('modifyTest#5', async function () {
       let data = {
         "week": 3,
         "day": 1,
         "time": 3,
+        "uid": 2017220301024,
         "title": "asdf",
         "info": "asdf",
         "reason": "asdf",
-        "remark": "asdasdf"
+        "remark": "asdasdf",
+        "status": "pending",
+        "teacher": 1000000
       };
       let reserve_id = ins_id;
       let result, catch_err;
       try {
-        result = await usrmgr.Modify(reserve_id, true, "root", data);
+        result = await usrmgr.Modify(reserve_id, true, 2017220301024, data);
       } catch (err) {
         catch_err = err;
       }
+
       aft_id = result.reserve_id.toString();
       expect(result.message).to.be.equal("OK");
       expect(catch_err).to.be.an("undefined");
@@ -120,7 +139,9 @@ describe('modifyTest', function () {
       expect(detail_result[0].info).to.be.equal("asdf");
       expect(detail_result[0].reason).to.be.equal("asdf");
       expect(detail_result[0].remark).to.be.equal("asdasdf");
-      expect(detail_result[0].user).to.be.equal("root");
+      expect(detail_result[0].uid).to.be.equal(2017220301024);
+      expect(detail_result[0].status).to.be.equal("pending");
+      expect(detail_result[0].teacher).to.be.equal(1000000);
 
       let summary_result;
       try {
@@ -134,6 +155,7 @@ describe('modifyTest', function () {
       expect(summary_result[0].reserved).to.not.include(1);
       expect(summary_result[0].available).to.not.include(3);
       expect(summary_result[0].reserved).to.include(3);
+      expect(summary_result[0].teacher).to.be.equal(1000000);
 
       let summary_result_2;
       try {
@@ -145,11 +167,11 @@ describe('modifyTest', function () {
       expect(summary_result_2.length).to.be.equal(0);
     });
 
-    it('modifyTest#5', async function () {
+    it('modifyTest#6', async function () {
       let reserve_id = aft_id;
       let result, catch_err;
       try {
-        result = await usrmgr.Modify(reserve_id, false, "root");
+        result = await usrmgr.Modify(reserve_id, false, 2017220301024);
       } catch (err) {
         catch_err = err;
       }

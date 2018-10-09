@@ -9,7 +9,7 @@ const ObjectId = require('mongodb').ObjectId;
 const encrypt = require('encryptor');
 const usrmgr = require('../lib/usrmgr');
 
-describe('statusTest', function () {
+describe('querylistTest', function () {
     before(async function () {
         try {
             let connect = await MongoClient.connect(URL, {useNewUrlParser: true});
@@ -24,7 +24,32 @@ describe('statusTest', function () {
                 "day": 1,
                 "time": 2,
                 "uid": 2017220301024,
-                "user": "root",
+                "title": "sth",
+                "reason": "sth",
+                "info": "sth",
+                "remark": "sth",
+                "status": "pending",
+                "teacher": 1000000,
+              },
+              {
+                "_id": new ObjectId("5ba2fdf6de61470db3cb9945"),
+                "week": 3,
+                "day": 1,
+                "time": 3,
+                "uid": 2017220301024,
+                "title": "sth",
+                "reason": "sth",
+                "info": "sth",
+                "remark": "sth",
+                "status": "pending",
+                "teacher": 1000000,
+              },
+              {
+                "_id": new ObjectId("5ba2fdf6de61470db3cb9946"),
+                "week": 3,
+                "day": 1,
+                "time": 4,
+                "uid": 2017220301025,
                 "title": "sth",
                 "reason": "sth",
                 "info": "sth",
@@ -38,23 +63,29 @@ describe('statusTest', function () {
         }
     });
 
-    it('statusTest#1', async function () {
+    it('querylistTest#1', async function () {
         let result, catch_err;
         try {
-          result = await usrmgr.Status("5ba2fdf6de61470db3cb9944", 2017220301024);
+          result = await usrmgr.QueryList(2017220301024, 2017220301024);
         } catch (err) {
           catch_err = err;
         }
         expect(result.message).to.be.equal("OK");
-        expect(result.uid).to.be.equal(2017220301024);
-        expect(result.status).to.be.equal("pending");
+        expect(result.data.length).to.be.equal(2);
+        expect(result.data[0].uid).to.be.equal(2017220301024);
+        expect(result.data[0].teacher).to.be.equal(1000000);
+        expect(result.data[0].time).to.be.equal(2);
+        expect(result.data[1].uid).to.be.equal(2017220301024);
+        expect(result.data[1].teacher).to.be.equal(1000000);
+        expect(result.data[1].time).to.be.equal(3);
+
         expect(catch_err).to.be.an("undefined");
     });
 
-    it('statusTest#2', async function () {
+    it('querylistTest#2', async function () {
       let result, catch_err;
       try {
-        result = await usrmgr.Status("3", 2017220301024);
+        result = await usrmgr.QueryList();
       } catch (err) {
         catch_err = err;
       }
@@ -63,10 +94,10 @@ describe('statusTest', function () {
       expect(catch_err.message).to.be.equal(message.invalid_field);
     });
 
-    it('statusTest#3', async function () {
+    it('querylistTest#3', async function () {
       let result, catch_err;
       try {
-        result = await usrmgr.Status("5ba2fdf6de61470db3cb9944", 2017220301023);
+        result = await usrmgr.QueryList(2017220301024, 2017220301023);
       } catch (err) {
         catch_err = err;
       }
@@ -75,10 +106,10 @@ describe('statusTest', function () {
       expect(catch_err.message).to.be.equal(message.not_permitted);
     });
 
-    it('statusTest#4', async function () {
+    it('querylistTest#4', async function () {
       let result, catch_err;
       try {
-        result = await usrmgr.Status("5ba2fdf6de61470db3cb9944");
+        result = await usrmgr.QueryList(2017220301024);
       } catch (err) {
         catch_err = err;
       }
@@ -87,34 +118,10 @@ describe('statusTest', function () {
       expect(catch_err.message).to.be.equal(message.no_login);
     });
 
-    it('statusTest#5', async function () {
+    it('querylistTest#5', async function () {
       let result, catch_err;
       try {
-        result = await usrmgr.Status("5ba2fdf6de61470db3cb9944", "2017220301024");
-      } catch (err) {
-        catch_err = err;
-      }
-      expect(result).to.be.an("undefined");
-      expect(catch_err).to.be.an('error');
-      expect(catch_err.message).to.be.equal(message.invalid_field);
-    });
-
-    it('statusTest#6', async function () {
-      let result, catch_err;
-      try {
-        result = await usrmgr.Status("{$ne: 123}", 2017220301024);
-      } catch (err) {
-        catch_err = err;
-      }
-      expect(result).to.be.an("undefined");
-      expect(catch_err).to.be.an('error');
-      expect(catch_err.message).to.be.equal(message.invalid_field);
-    });
-
-    it('statusTest#7', async function () {
-      let result, catch_err;
-      try {
-        result = await usrmgr.Status();
+        result = await usrmgr.QueryList("{$ne: 123}", 2017220301024);
       } catch (err) {
         catch_err = err;
       }
