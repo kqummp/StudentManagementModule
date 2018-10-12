@@ -50,7 +50,7 @@ describe('deleteTest', function () {
       let result, catch_err;
       let oid = "";
       try {
-        result = await usrmgr.Delete(oid, 2017220301024);
+        result = await usrmgr.Delete(oid, 2017220301024, 2017220301024);
       } catch (err) {
         catch_err = err;
       }
@@ -76,7 +76,7 @@ describe('deleteTest', function () {
       let result, catch_err;
       let oid = "{$ne: 1}";
       try {
-        result = await usrmgr.Delete(oid, 2017220301024);
+        result = await usrmgr.Delete(oid, 2017220301024, 2017220301024);
       } catch (err) {
         catch_err = err;
       }
@@ -89,7 +89,7 @@ describe('deleteTest', function () {
       let result, catch_err;
       let oid = "5bb38ef916f47987b7fe1e4";
       try {
-        result = await usrmgr.Delete(oid, 2017220301024);
+        result = await usrmgr.Delete(oid, 2017220301024, 2017220301024);
       } catch (err) {
         catch_err = err;
       }
@@ -102,7 +102,7 @@ describe('deleteTest', function () {
       let result, catch_err;
       let reserve_id = ins_id;
       try {
-        result = await usrmgr.Delete(reserve_id, "2017220301024");
+        result = await usrmgr.Delete(reserve_id, "2017220301024", 2017220301024);
       } catch (err) {
         catch_err = err;
       }
@@ -113,9 +113,22 @@ describe('deleteTest', function () {
 
     it('deleteTest#6', async function () {
       let result, catch_err;
-      let oid = "5bb38ef916f47987b7fe1e4f";
+      let reserve_id = ins_id;
       try {
-        result = await usrmgr.Delete(oid, 2017220301024);
+        result = await usrmgr.Delete(reserve_id, 2017220301024, "2017220301024");
+      } catch (err) {
+        catch_err = err;
+      }
+      expect(result).to.be.an("undefined");
+      expect(catch_err).to.be.an("Error");
+      expect(catch_err.message).to.be.equal(message.invalid_field);
+    });
+
+    it('deleteTest#7', async function () {
+      let result, catch_err;
+      let reserve_id = ins_id;
+      try {
+        result = await usrmgr.Delete(reserve_id, 2017220301024, 2017220301023);
       } catch (err) {
         catch_err = err;
       }
@@ -124,12 +137,25 @@ describe('deleteTest', function () {
       expect(catch_err.message).to.be.equal(message.not_permitted);
     });
 
-    it('deleteTest#7', async function () {
+    it('deleteTest#8', async function () {
+      let result, catch_err;
+      let oid = "5bb38ef916f47987b7fe1e4f";
+      try {
+        result = await usrmgr.Delete(oid, 2017220301024, 2017220301024);
+      } catch (err) {
+        catch_err = err;
+      }
+      expect(result).to.be.an("undefined");
+      expect(catch_err).to.be.an("Error");
+      expect(catch_err.message).to.be.equal(message.not_permitted);
+    });
+
+    it('deleteTest#9', async function () {
       let reserve_id = ins_id;
 
       let result, catch_err;
       try {
-        result = await usrmgr.Delete(reserve_id, 2017220301024);
+        result = await usrmgr.Delete(reserve_id, 2017220301024, 2017220301024);
       } catch (err) {
         catch_err = err;
       }

@@ -57,7 +57,7 @@ describe('bookTest', function () {
 
       let result, catch_err;
       try {
-        result = await usrmgr.Book(data, 2017220301024);
+        result = await usrmgr.Book(data, 2017220301024, 2017220301024);
       } catch (err) {
         catch_err = err;
       }
@@ -97,7 +97,7 @@ describe('bookTest', function () {
       let result, catch_err;
       let data = {};
       try {
-        result = await usrmgr.Book(data, 2017220301024);
+        result = await usrmgr.Book(data, 2017220301024, 2017220301024);
       } catch (err) {
         catch_err = err;
       }
@@ -119,7 +119,7 @@ describe('bookTest', function () {
         "remark": "asdasd"
       };
       try {
-        result = await usrmgr.Book(data, 2017220301024);
+        result = await usrmgr.Book(data, 2017220301024, 2017220301024);
       } catch (err) {
         catch_err = err;
       }
@@ -165,7 +165,7 @@ describe('bookTest', function () {
         "teacher": 1000000
       };
       try {
-        result = await usrmgr.Book(data, "2017220301024");
+        result = await usrmgr.Book(data, "2017220301024", 2017220301024);
       } catch (err) {
         catch_err = err;
       }
@@ -188,7 +188,7 @@ describe('bookTest', function () {
         "teacher": 1000000
       };
       try {
-        result = await usrmgr.Book(data, 2017220301024);
+        result = await usrmgr.Book(data, 2017220301024, 2017220301024);
       } catch (err) {
         catch_err = err;
       }
@@ -211,7 +211,7 @@ describe('bookTest', function () {
         "teacher": 1000000
       };
       try {
-        result = await usrmgr.Book(data, 2017220301024);
+        result = await usrmgr.Book(data, 2017220301024, 2017220301024);
       } catch (err) {
         catch_err = err;
       }
@@ -234,7 +234,7 @@ describe('bookTest', function () {
         "teacher": 1000000
       };
       try {
-        result = await usrmgr.Book(data, 2017220301024);
+        result = await usrmgr.Book(data, 2017220301024, 2017220301024);
       } catch (err) {
         catch_err = err;
       }
@@ -244,4 +244,49 @@ describe('bookTest', function () {
       expect(catch_err.message).to.be.equal(message.unavailable);
     });
 
+    it('bookTest#9', async function () {
+      let result, catch_err;
+      let data = {
+        "week": 3,
+        "day": 1,
+        "time": 1,
+        "title": "asd",
+        "info": "asd",
+        "reason": "asd",
+        "remark": "asdasd",
+        "teacher": 1000000
+      };
+      try {
+        result = await usrmgr.Book(data, 2017220301024, "2017220301024");
+      } catch (err) {
+        catch_err = err;
+      }
+
+      expect(result).to.be.an("undefined");
+      expect(catch_err).to.be.an("Error");
+      expect(catch_err.message).to.be.equal(message.invalid_field);
+    });
+
+    it('bookTest#10', async function () {
+      let result, catch_err;
+      let data = {
+        "week": 3,
+        "day": 1,
+        "time": 1,
+        "title": "asd",
+        "info": "asd",
+        "reason": "asd",
+        "remark": "asdasd",
+        "teacher": 1000000
+      };
+      try {
+        result = await usrmgr.Book(data, 2017220301024, 2017220301023);
+      } catch (err) {
+        catch_err = err;
+      }
+
+      expect(result).to.be.an("undefined");
+      expect(catch_err).to.be.an("Error");
+      expect(catch_err.message).to.be.equal(message.not_permitted);
+    });
 });

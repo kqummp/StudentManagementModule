@@ -41,7 +41,7 @@ describe('querybyoidTest', function () {
     it('querybyoidTest#1', async function () {
         let result, catch_err;
         try {
-          result = await usrmgr.QueryByReserveId("5ba2fdf6de61470db3cb9944", 2017220301024);
+          result = await usrmgr.QueryByReserveId("5ba2fdf6de61470db3cb9944", 2017220301024, 2017220301024);
         } catch (err) {
           catch_err = err;
         }
@@ -63,7 +63,7 @@ describe('querybyoidTest', function () {
     it('querybyoidTest#2', async function () {
       let result, catch_err;
       try {
-        result = await usrmgr.QueryByReserveId("3", 2017220301024);
+        result = await usrmgr.QueryByReserveId("3", 2017220301024, 2017220301024);
       } catch (err) {
         catch_err = err;
       }
@@ -75,7 +75,7 @@ describe('querybyoidTest', function () {
     it('querybyoidTest#3', async function () {
       let result, catch_err;
       try {
-        result = await usrmgr.QueryByReserveId("5ba2fdf6de61470db3cb9944", 2017220301023);
+        result = await usrmgr.QueryByReserveId("5ba2fdf6de61470db3cb9944", 2017220301023, 2017220301024);
       } catch (err) {
         catch_err = err;
       }
@@ -99,7 +99,7 @@ describe('querybyoidTest', function () {
     it('querybyoidTest#5', async function () {
       let result, catch_err;
       try {
-        result = await usrmgr.QueryByReserveId("{$ne: 123}", 2017220301024);
+        result = await usrmgr.QueryByReserveId("{$ne: 123}", 2017220301024, 2017220301024);
       } catch (err) {
         catch_err = err;
       }
@@ -123,7 +123,19 @@ describe('querybyoidTest', function () {
     it('querybyoidTest#7', async function () {
       let result, catch_err;
       try {
-        result = await usrmgr.QueryByReserveId(2017220301024, "2017220301024");
+        result = await usrmgr.QueryByReserveId(2017220301024, "2017220301024", 2017220301024);
+      } catch (err) {
+        catch_err = err;
+      }
+      expect(result).to.be.an("undefined");
+      expect(catch_err).to.be.an('error');
+      expect(catch_err.message).to.be.equal(message.invalid_field);
+    });
+
+    it('querybyoidTest#8', async function () {
+      let result, catch_err;
+      try {
+        result = await usrmgr.QueryByReserveId(2017220301024, 2017220301024, "2017220301024");
       } catch (err) {
         catch_err = err;
       }

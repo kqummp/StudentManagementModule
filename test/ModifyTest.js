@@ -50,7 +50,7 @@ describe('modifyTest', function () {
       let reserve_id = "";
       let result, catch_err;
       try {
-        result = await usrmgr.Modify(reserve_id, true, 2017220301024);
+        result = await usrmgr.Modify(reserve_id, true, 2017220301024, 2017220301024);
       } catch (err) {
         catch_err = err;
       }
@@ -89,7 +89,7 @@ describe('modifyTest', function () {
       let reserve_id = ins_id;
       let result, catch_err;
       try {
-        result = await usrmgr.Modify(reserve_id, false, "2017220301024");
+        result = await usrmgr.Modify(reserve_id, false, "2017220301024", 2017220301024);
       } catch (err) {
         catch_err = err;
       }
@@ -99,6 +99,32 @@ describe('modifyTest', function () {
     });
 
     it('modifyTest#5', async function () {
+      let reserve_id = ins_id;
+      let result, catch_err;
+      try {
+        result = await usrmgr.Modify(reserve_id, false, 2017220301024, "2017220301024");
+      } catch (err) {
+        catch_err = err;
+      }
+      expect(result).to.be.an("undefined");
+      expect(catch_err).to.be.an("Error");
+      expect(catch_err.message).to.be.equal(message.invalid_field);
+    });
+
+    it('modifyTest#6', async function () {
+      let reserve_id = ins_id;
+      let result, catch_err;
+      try {
+        result = await usrmgr.Modify(reserve_id, false, 2017220301024, 2017220301023);
+      } catch (err) {
+        catch_err = err;
+      }
+      expect(result).to.be.an("undefined");
+      expect(catch_err).to.be.an("Error");
+      expect(catch_err.message).to.be.equal(message.not_permitted);
+    });
+
+    it('modifyTest#7', async function () {
       let data = {
         "week": 3,
         "day": 1,
@@ -114,7 +140,7 @@ describe('modifyTest', function () {
       let reserve_id = ins_id;
       let result, catch_err;
       try {
-        result = await usrmgr.Modify(reserve_id, true, 2017220301024, data);
+        result = await usrmgr.Modify(reserve_id, true, 2017220301024, 2017220301024, data);
       } catch (err) {
         catch_err = err;
       }
@@ -171,7 +197,7 @@ describe('modifyTest', function () {
       let reserve_id = aft_id;
       let result, catch_err;
       try {
-        result = await usrmgr.Modify(reserve_id, false, 2017220301024);
+        result = await usrmgr.Modify(reserve_id, false, 2017220301024, 2017220301024);
       } catch (err) {
         catch_err = err;
       }
